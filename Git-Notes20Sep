@@ -1,0 +1,89 @@
+Module 2: Notes:
+
+*********************
+
+Command to connect to AWS server using SSh client:
+
+ssh -i "pemfileName" ec2-user@publicipaddress/publichostname
+
+Example: 
+
+ssh -i "20sep.pem" ec2-user@ec2-3-139-80-73.us-east-2.compute.amazonaws.com
+
+
+
+To become the root user in Linux VM
+
+$ sudo su -
+
+Commands to Install git:
+
+$ yum install git -y
+
+
+Scenario 1:  Create a Local repository:
+
+    mkdir myproject
+    ls
+    cd myproject
+    touch index1.html index2.html
+    ls
+    git init
+  Initialized empty Git repository in /root/myproject/.git/
+
+
+The local repo name will always be .git , you cannot change this name
+it is  hidden folder
+
+
+$ ls -al
+
+Scenario 2:
+
+Git configuration:
+
+
+2 variables whose values have to be set :
+
+1. user.name
+2. user.email
+
+These values will be used by git to track/log the details of files version controlled
+
+Command to do the git configuration:
+
+$ git config --global user.name sonal0409
+
+$ git config --global user.email mittal.sonal04@gmail.com
+
+$ git config --list
+
+There are types of configuration:
+
+> local : the configuration are local to that particular repository only
+
+git config --local user.name sonal0409
+
+> global : the configuration will be applicable to every repo that the current user on my system creates
+
+$ git config --global user.name sonal0409
+
+> system : the configuration will be applicable to every repo that the any user on my system creates
+
+git config --system user.name sonal0409
+
+
+ Scenario 3 : How to add untracked files to Local repository
+
+
+
+
+
+
+
+
+
+
+
+
+
