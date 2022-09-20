@@ -74,7 +74,11 @@ git config --system user.name sonal0409
 
 
  Scenario 3 : How to add untracked files to Local repository
+$ git add index1.html
 
+$ git status
+
+$ git commit -m "added file index1.html"
 
 
 
