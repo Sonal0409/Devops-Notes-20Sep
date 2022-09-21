@@ -74,19 +74,271 @@ git config --system user.name sonal0409
 
 
  Scenario 3 : How to add untracked files to Local repository
+
+git init
+
+git status
+
+git add filename
+
+git commit -m "done"
+************************************
+Scenario 4: git log
+
+$ git log
+$ git log --oneline
+
+$ git show <commitid>
+
+$ git show 8020b67
+
+**********
+Scenario 5: Modify an exisitng file, which is already in Local repo
+
+add the modification to LR
+
+
+1 method:
+
 $ git add index1.html
-
-$ git status
-
-$ git commit -m "added file index1.html"
+$ git commit -m "modification"
 
 
+add the modification to LR
+
+2nd method:(using -a option: add all the changes & commit it)
+
+$ git commit -a -m "modification index2.html"
 
 
+************
+
+Scenario 6: to check difference between 2 version of a file
+
+$ git diff filename
+
+********************************************************
+Scenario6: Deletion of file
+
+- Deletion of file from WD & local repo
+
+# git rm file1
+# git status
+# git commit -m "deletion of file1"
+# ls
+# git ls-files
+
+- Deletion of file local repo only
+
+# git rm --cached file2
+# git commit -m "deteled file from local"
+# git status    // file will be untracked
+# ls
+# git ls-files
+
+# add the untracked file to local repo
+
+***********************************************************
+revert the changes to its previous state
+
+Select the required commit id
+
+$ git log --oneline
+
+see what happened in  that commit
+
+$ git show 5f62be1   
+
+Lets revert the commitid
+
+whatever was commited, will go back to its previous state
+
+ $ git revert <commitid>
+
+When the above command is executed, 
+git will open an editor for you, 
+where you have to put a message as to why are your reverting
+AND
+git will perform revert action and generate a commit id for it
+
+Expected :  file should be back to LR & WD
+
+*********************************************************
+Scenario8: Ignoring Files
+
+If in the working directory, we have files that are to be ignored and not to be tracked by git
+
+We cna use the concept of .gitignore file
+
+This concept is applicable to only new file and is in unstagged area
+
+# vim log
+# git status  // file untracked
+# vim .gitignore   // add name of file "log" , which wil be noe ignored
+# git status   // log will be ignored and .gitignore untracked
+# git add .gitignore
+# git commit -m "added ignore file"
+# git status // working tress has to be clean
+
+************************************************************
+Scenario 9: Resetting the commits OR Removing Certain changes
+
+# git log --oneline    
+
+# git reset --hard commitid    // permanently removes, changes cannot be reverted back.
+*******************************************************************
+
+Branching
+
+# git status ==> shows master branch
+# git branch b1     // copies all files form master
+# git status
+# git checkout b1
+# git status  
+ // On branch b1
+
+# git ls-files // all files same as master on b1
+# git log --oneline // all commit same as master 
+
+Create a file on branch b1
+
+# vim file4 
+# git add file4
+# git commit -m "added file4"
+# git ls-files
+# git log --oneline   // 1 new commit which is not on master right now
 
 
+Merging a file from branch b1 to master
+
+# git checkout master
+# git ls-files
+# git merge b1 master  // merge from source b1 to destination master
+# git ls-files
+# git log --oneline
+
+Resolve Conflicts on Merge
+
+// create a file on Master
+
+# git branch  // should be on Master branch
+
+# git login   // new file , add text
+# git add login
+# git commit -m "login file"
+
+# git checkout b1
+
+# git login   // new file , add text ==> filename same but text is different
+# git add login
+# git commit -m "login file"
+
+Merge b1 to master
+
+# git checkout master
+
+# git merge b1 master
+
+// Conflict error message
+// manually edit login file and add changes wherever required.
+# vim login   // save it
+# git add login
+# git commit -m "conflict resolve"
+
+File on b1 can also be merged if required
+
+# git checkout b1
+# git merge master b1
+# git chckout master
+
+********************************************************
+STASHING of files on GIT
+
+# git status ==> * indicates we are on master branch
+# vim login.txt ==> inster new code for signout button ==>esc ==> :wq!
+
+New feature development activity on branch 1
+
+# git status ==> chnages that are untracked and we don’t want to commit them right now.
+
+So stash them on temporary space:
+
+# git stash   ==> all the untracked changes will be moved to temperory space
+
+Where is this temporary space?
+
+# git stash list   ==> will give list of chnages stashed 
 
 
+# git show stashnumber  ==> give stash number
+
+Now developer can work on new feature by switching to branch b1
+
+# git checkout b1
+# vim logout.txt
+==> add code for logout ==>esc ==> :wq!
+#git add logout.txt
+# git commit -m “logoutcode”
+
+Now switch back to master brach
+
+# git checkout master
+
+GET changes back from stash ===> UNSTASHING
+
+# git stash pop stash@{0}   ==> will revert back all untracked file chnages
+After unstashing, the files will be dropped from temperory shelves. 
+
+  OR
+# git stash apply statsh@{0}   ==> will revert back chnages from temperory shelves to working directory
+// and files still remains on temperory shelves if needed latter in other branches.
+
+# git statsh list ==> nothing will be there  on executing stash pop.
+
+PARTIAL STASH 
+
+# git stash -p  ==> give y for which ever file we want to stash
+
+==> give N if we don’t want to stash
+
+# git stash drop stash@{0} 
+
+# git stash list
+
+# git stash clear  ==> no stash will be there
+************************************************************************************
+REBASE:
+
+# git log --oneline  ==> see how many commits are there and reset commits to only last 2 commits
+
+# git reset --hard commitid ( give last second commit id)
+# git log --oneline ==> 2 comits will be there
+
+# git branch b2 master ==> create new branch b2 from master
+# git log --oneline ==> 2 commits will be there
+
+# git checkout master
+# vim login.txt ==> instert text ==>esc ==> :wq!
+# git add login.txt
+# git commit -m “file4 added to master”
+
+# git log --oneline ==> three commit id will be there --copy it on notepad
+
+# git checkout b2
+# vim logout.txt  ==> instert code for logout ==> esc ==> :wq!
+# git add logout.txt
+# git commit -m “logout on b2”
+# git log --online ==> 3 commits will be there on branch b2 ==> copy it on notepad
+
+
+Now if we use merge command, we will have commits and code as file1.txt, file2.txt, logout and login.txt(from master) . which is called as parallel merge
+
+But if we want to merge linear on branch then we will do rebase.
+Like this : file1.txt, file2.txt, login.txt(frommmaster) , logout.txt
+
+# git rebase master
+
+# git log --oneline ==> we will have commits arranges in liner fashion. ==> copy on notepad and show.
 
 
 
