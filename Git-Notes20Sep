@@ -1,345 +1,720 @@
-Module 2: Notes:
+Day 1 - Commands:
+**********************************
 
-*********************
-
-Command to connect to AWS server using SSh client:
-
-ssh -i "pemfileName" ec2-user@publicipaddress/publichostname
-
-Example: 
-
-ssh -i "20sep.pem" ec2-user@ec2-3-139-80-73.us-east-2.compute.amazonaws.com
-
-
-
-To become the root user in Linux VM
-
-$ sudo su -
-
-Commands to Install git:
+Command to install git:
 
 $ yum install git -y
 
+To Check the version of git installed on your server:
 
-Scenario 1:  Create a Local repository:
-
-    mkdir myproject
-    ls
-    cd myproject
-    touch index1.html index2.html
-    ls
-    git init
-  Initialized empty Git repository in /root/myproject/.git/
+$ git --version
 
 
-The local repo name will always be .git , you cannot change this name
-it is  hidden folder
+Scenario 1: How to create a Local repository
+
+Cretae a working directory
+
+$ mkdir myproject
+
+$ cd myproject
+
+Initialize git on it
+
+$ git init  ==> create LR
+
+$ ls -al  ==>.git folder will be there
 
 
-$ ls -al
+Scenario 2: How to add some files into Local repository
 
-Scenario 2:
+ > first create some files in working directory
 
-Git configuration:
+   $ touch index1.html
+   $ touch index2.html
+   $ git status
 
-
-2 variables whose values have to be set :
-
-1. user.name
-2. user.email
-
-These values will be used by git to track/log the details of files version controlled
-
-Command to do the git configuration:
-
-$ git config --global user.name sonal0409
-
-$ git config --global user.email mittal.sonal04@gmail.com
-
-$ git config --list
-
-There are types of configuration:
-
-> local : the configuration are local to that particular repository only
-
-git config --local user.name sonal0409
-
-> global : the configuration will be applicable to every repo that the current user on my system creates
-
-$ git config --global user.name sonal0409
-
-> system : the configuration will be applicable to every repo that the any user on my system creates
-
-git config --system user.name sonal0409
+ > add the files to stagging area
 
 
- Scenario 3 : How to add untracked files to Local repository
+git add index1.html
+OR
 
-git init
+git add .
 
-git status
+OR
 
-git add filename
+$ git add filename1 file2
 
-git commit -m "done"
-************************************
-Scenario 4: git log
+ > see the status of files 
 
+$ git status
+
+ > commit the files to Local repo
+
+
+$ git commit -m "adding files"  ==> commits all the files
+
+$ git commit -m "add file only 1" filename ==> only this particular file or change will be commited to local repo
+
+
+Scenario3: remove the stagged files back to working directory
+************************
+
+touch newfile  ==> file will be in workign directory
+
+git add newfile  ==> added to staggign area
+
+move back the file to working directory from stagging area
+
+*******************************
+
+
+
+> git configurations
+> git log
+> Modify a tracked file and add the changes to local repo
+> Delete a file from the local repository and commit the changes.
+
+
+Scenario 1 :
+
+To check all the commits that we have done on the local repo
+
+$ sudo su -
 $ git log
+
+Will give you all commits done so far
+
+HEAD : represents the latest commit done on the repository.
+
+
+
+If you want the log to be available in a single line format
+
+$ git log --oneline
+
+Your will be in format:
+
+First 7 characters of your commit & message what you gave with commit
+
+
+To see all the changes that happened in a commit
+
 $ git log --oneline
 
 $ git show <commitid>
 
-$ git show 8020b67
+$ git show 1376741
 
-**********
-Scenario 5: Modify an exisitng file, which is already in Local repo
-
-add the modification to LR
+Scenario 3: Git configurations:
 
 
-1 method:
+They are Variables storing values that are to be used by GIT installed in your local machine
 
-$ git add index1.html
-$ git commit -m "modification"
+Can be set in 3 ways
+
+Set the configurations as Local, global or System
+
+Variable/configuration that you will set in git
+
+user.name
+user.email
+
+git config
+
+If you want to set the variable only to single repository , you will set configuration as local
+
+Locally :
+
+$ git config –local user.name sonal0409
+
+After this if i commit in the repo, the author name will be sonal0409
+
+Global:
+**************
+If you want to set same user.name and same email on every repository created by the OS user that your are logged in:
+
+$ git config –global user.name Name
+
+$ git config –global user.email emialid
+
+Example:
+
+$ git config –global user.name sonal0409
+
+$ git config –global user.email mittal.sonal04@gmail.com
+
+You can find the configuration at below location
+
+$ cat ~/.gitconfig
+
+System:
+*****************
+
+If you want to set same user.name and same email on every repository created by any OS user that your are logged in:
+
+$ git config –system user.name sonal0409
+
+$ git config –system user.email mittal.sonal04@gmail.com
 
 
-add the modification to LR
+Priority of setting will be given to System → global → local
 
-2nd method:(using -a option: add all the changes & commit it)
+Where is git going to check the system level configuration:
 
-$ git commit -a -m "modification index2.html"
+$ cat /etc/gitconfig
+
+> In this file the system level variable and values will be set
 
 
-************
+Where is git going to check the global level configuration:
 
-Scenario 6: to check difference between 2 version of a file
+You the find the global configuration set in the file:
+
+$ cat ~/.gitconfig
+
+
+Where is git going to check the local level configuration:
+
+$ cat .git/config
+
+
+Command to edit set global configuration:
+
+git config --global --edit
+
+git config --global --edit
+
+>  unsetting our configuration file using flag --unset in git config --global
+command.
+Command used: git config --global --unset user.email
+
+ git config --global --unset user.name
+
+
+
+Scenario 4:
+*********************
+
+Take an existing file which is tracked
+
+$ make changes in the file
 
 $ git diff filename
 
-********************************************************
-Scenario6: Deletion of file
+$ git diff index1.html
 
-- Deletion of file from WD & local repo
 
-# git rm file1
-# git status
-# git commit -m "deletion of file1"
-# ls
-# git ls-files
+Discard the changes that are in working directory permanently
 
-- Deletion of file local repo only
+$ git restore index1.html
 
-# git rm --cached file2
-# git commit -m "deteled file from local"
-# git status    // file will be untracked
-# ls
-# git ls-files
+OR
 
-# add the untracked file to local repo
+$ git checkout -- index1.html
 
-***********************************************************
-revert the changes to its previous state
+Discard the changes from staging area back to working directory:
 
-Select the required commit id
+$ git restore –staged index1.html
 
-$ git log --oneline
+OR
 
-see what happened in  that commit
+$ git reset HEAD index1.html
 
-$ git show 5f62be1   
 
-Lets revert the commitid
 
-whatever was commited, will go back to its previous state
+If a changes are committed on a file and you want to go back to previous version of the file then use revert command
 
- $ git revert <commitid>
+$ git revert commit id
 
-When the above command is executed, 
-git will open an editor for you, 
-where you have to put a message as to why are your reverting
-AND
-git will perform revert action and generate a commit id for it
 
-Expected :  file should be back to LR & WD
 
-*********************************************************
-Scenario8: Ignoring Files
 
-If in the working directory, we have files that are to be ignored and not to be tracked by git
 
-We cna use the concept of .gitignore file
 
-This concept is applicable to only new file and is in unstagged area
 
-# vim log
-# git status  // file untracked
-# vim .gitignore   // add name of file "log" , which wil be noe ignored
-# git status   // log will be ignored and .gitignore untracked
-# git add .gitignore
-# git commit -m "added ignore file"
-# git status // working tress has to be clean
+Delete a file from WD and Local Repository and commit the changes
+Method 1 : using linux command
 
-************************************************************
-Scenario 9: Resetting the commits OR Removing Certain changes
+   In the working directory delete the file using command:
 
-# git log --oneline    
+   $ rm <filename>
 
-# git reset --hard commitid    // permanently removes, changes cannot be reverted back.
-*******************************************************************
+rm: remove regular empty file ‘file1’? y
 
-Branching
+$ git status ⇒ you will see the file is deleted status
 
-# git status ==> shows master branch
-# git branch b1     // copies all files form master
-# git status
-# git checkout b1
-# git status  
- // On branch b1
+$ git add file1
 
-# git ls-files // all files same as master on b1
-# git log --oneline // all commit same as master 
+$ git commit -m “deleted file file1”  ⇒ this will remove file from local repo also and will generate a commit id.
 
-Create a file on branch b1
 
-# vim file4 
-# git add file4
-# git commit -m "added file4"
-# git ls-files
-# git log --oneline   // 1 new commit which is not on master right now
 
+Method 2: GIT command to remove a file from working Directory and LR
 
-Merging a file from branch b1 to master
+$ ls
+See the files that you have in WD
 
-# git checkout master
-# git ls-files
-# git merge b1 master  // merge from source b1 to destination master
-# git ls-files
-# git log --oneline
+$ git ls-files
+See the files that you have in local repo
 
-Resolve Conflicts on Merge
+Take a filename  which is in both WD and LR
 
-// create a file on Master
 
-# git branch  // should be on Master branch
+$ git rm <filename>  ⇒ GIT command to remove a file from working Directory and LR
 
-# git login   // new file , add text
-# git add login
-# git commit -m "login file"
+$ git status  ⇒ file will be in deleted state
 
-# git checkout b1
+$ git commit -m “deleted the file”
 
-# git login   // new file , add text ==> filename same but text is different
-# git add login
-# git commit -m "login file"
 
-Merge b1 to master
+Scenario 2:
+*****************************************
+ .gitignore concept
 
-# git checkout master
+It is a concept where you can ask to git to ignore certain files  from your working directory.
 
-# git merge b1 master
+In the working directory you will create few file:
 
-// Conflict error message
-// manually edit login file and add changes wherever required.
-# vim login   // save it
-# git add login
-# git commit -m "conflict resolve"
+touch file.xml config.xml data.txt
 
-File on b1 can also be merged if required
+If your will give git status command, git will tell these files are untracked
 
-# git checkout b1
-# git merge master b1
-# git chckout master
+But we don’t want these files to be version controlled
 
-********************************************************
-STASHING of files on GIT
+In this case, you will create a .gitignore file [ name of file will be same and it has no extension]
 
-# git status ==> * indicates we are on master branch
-# vim login.txt ==> inster new code for signout button ==>esc ==> :wq!
+Open this file and add the names of all the files or directories, save the file
 
-New feature development activity on branch 1
+And git will not track the files names & directories mentioned in .gitignore file
 
-# git status ==> chnages that are untracked and we don’t want to commit them right now.
+Note: This scenario is applicable to files that are with status as untacked.
 
-So stash them on temporary space:
 
-# git stash   ==> all the untracked changes will be moved to temperory space
 
-Where is this temporary space?
 
-# git stash list   ==> will give list of chnages stashed 
 
+Scenario 3:
 
-# git show stashnumber  ==> give stash number
+Create a Remote repositories
+> Login to github
+> click on New button to create a remote repo
+> Name to the repository
+> select public repo
+> click on Create repository
 
-Now developer can work on new feature by switching to branch b1
+The URL of my github repo is : https://github.com/Sonal0409/myproject206Aug.git
 
-# git checkout b1
-# vim logout.txt
-==> add code for logout ==>esc ==> :wq!
-#git add logout.txt
-# git commit -m “logoutcode”
+Create a Personal Access token on github
+It is a authentication method which very secure
+This is used whenever we have to push files or changes form Local to remote
+There is not concept of using password, instead we have to use Personal access token in git locally
 
-Now switch back to master brach
+Demo:
 
-# git checkout master
+Go to settings of github → on the left side → go to developer settings → go to Personal Access tokens → Generate New token
+Note→ give a name to the token
+Expiration -> 30 days
+Select scope : repo (1 checkbox) 
+Click on generate token
 
-GET changes back from stash ===> UNSTASHING
+Make sure to copy your personal access token now. You won’t be able to see it again! 
 
-# git stash pop stash@{0}   ==> will revert back all untracked file chnages
-After unstashing, the files will be dropped from temperory shelves. 
+Connect Local repo to remote repo
+	Go to git and execute this command
 
-  OR
-# git stash apply statsh@{0}   ==> will revert back chnages from temperory shelves to working directory
-// and files still remains on temperory shelves if needed latter in other branches.
+  $ git remote add origin https://github.com/Sonal0409/myproject206Aug.git
 
-# git statsh list ==> nothing will be there  on executing stash pop.
+Execute the command to check local and remote repo is set:
 
-PARTIAL STASH 
+  $ git remote -v
 
-# git stash -p  ==> give y for which ever file we want to stash
+To remove local repo and remote repo connection:
 
-==> give N if we don’t want to stash
+$ git remote rm origin
 
-# git stash drop stash@{0} 
+Command that can be used to update existing remote origin:
 
-# git stash list
+$ git remote set-url origin <url
+Pushing the file to remote from local repo
 
-# git stash clear  ==> no stash will be there
-************************************************************************************
-REBASE:
+$ git push origin master
 
-# git log --oneline  ==> see how many commits are there and reset commits to only last 2 commits
+Username : <guthubusername>
+Password: give your personal access token
 
-# git reset --hard commitid ( give last second commit id)
-# git log --oneline ==> 2 comits will be there
+Note: you will not be able to see the token text on screen.. Go ahead and press enter key
 
-# git branch b2 master ==> create new branch b2 from master
-# git log --oneline ==> 2 commits will be there
 
-# git checkout master
-# vim login.txt ==> instert text ==>esc ==> :wq!
-# git add login.txt
-# git commit -m “file4 added to master”
 
-# git log --oneline ==> three commit id will be there --copy it on notepad
 
-# git checkout b2
-# vim logout.txt  ==> instert code for logout ==> esc ==> :wq!
-# git add logout.txt
-# git commit -m “logout on b2”
-# git log --online ==> 3 commits will be there on branch b2 ==> copy it on notepad
+Pull those files to your local
 
+$ git pull origin master
+Pulling a specific file form a remote repo to local
 
-Now if we use merge command, we will have commits and code as file1.txt, file2.txt, logout and login.txt(from master) . which is called as parallel merge
+Create 2 new files in github
 
-But if we want to merge linear on branch then we will do rebase.
-Like this : file1.txt, file2.txt, login.txt(frommmaster) , logout.txt
+In the local git CLI
 
-# git rebase master
+Execute the command:
 
-# git log --oneline ==> we will have commits arranges in liner fashion. ==> copy on notepad and show.
+$ git fetch origin master
 
+⇒ this command will only fetch the new changes from the remote repo and commits
+⇒ it will not merge with WD & LR
 
+For your information - no need to execute:
 
+How to Check what has been fetched from remote repo
 
+cd .git
+
+cat FETCH_HEAD
+
+You will a single commit with remote files information in it
+
+cd ..
+
+$  git diff 2830d1093a8f519b68c929cb4501ad1c247c9fe3
+
+This will show you, which files are not in your local, but are there in remote
+Diff ⇒ difference
+In this case, diff with commit id , will tell us what has been fetched from remote repo
+
+In order to merge a single file form remote to local repo
+
+
+Execute this:
+
+$ git checkout origin/master <filename>
+
+$  git checkout origin/master fetchfile1
+
+$ git status ⇒ file will be staged
+
+$ git commit -m “message”
+
+
+
+Fork a repo
+Forking is copying the remote repo from github account to another github account
+
+Copying repository remote to remote
+
+A fork is a copy of a repository. Forking a repository allows you to freely experiment with changes without affecting the original project.
+
+
+
+Cloning of remote repo to Local machine
+
+Conflicts and resolving conflicts
+
+
+
+
+
+
+Branching & Merging
+
+
+Scenario 1:  Create branches in Local repo
+
+> Command to check branch in Local repo
+	$ git branch
+
+> Create a new branch in Local
+
+	$ git branch f1
+
+> Switch to the branch 
+
+      $ git checkout f1
+
+> Add new file and commit on the branch f1
+	$ touch feature1
+	$ git add .
+	$ git commit -m “added onf1”
+
+	$ git log –oneline  // check the new commit
+
+> Switch back to master branch and compare the 2 branches
+
+> Compare the 2 branches:
+
+git diff --name-status master..f1
+
+OR
+
+Git diff master..f1
+
+
+
+
+
+
+
+
+
+Scenario 2:
+
+> Command to create a new branch as well as switch to new branch
+
+	$ git checkout -b f2
+
+> Add new file and commit on the new branch
+> Switch back to master
+
+Scenario 3:
+
+> Always switch to the branch where you want to merge the files from feature branch
+
+	$ git checkout master
+
+> Merge the changes from new branch to master branch
+
+	$ git merge <sourcebranch> <destinationbranch>
+
+	$ git merge f1 master
+
+> Check the commit history on master
+
+Scenario 4:
+
+Change the name of the branch
+
+	$ git branch -M f1 dev
+
+
+Delete a branch in local:
+
+Make sure , you are not on the branch that is to be deleted
+
+First checkout to master branch
+	$ git checkout master
+
+	$ git branch -D f2
+
+
+List of branches that have not been merged to master
+
+
+git branch --no-merged
+
+List of branches that have been merged to master
+
+git branch --merged
+
+Scenario 5:
+
+Create a new branch, switch to the branch , add new changes and commit
+$ git branch feature
+$ git checkout feature
+$ touch newfilename
+$ git add .
+$ git commit -m “doneon feature”
+
+
+Push the branch to remote repository
+
+$ git push origin feature
+
+Scenario 6:
+
+Merge 2 branches on remote repository -> Pull requests
+
+
+Scenario 1: Rebasing in GIT
+
+Rebasing is merging strategy that is always applied on a feature branch
+It is never applied on Master branch
+
+In case rebase the commit history on your git repository is re-arranged on the feature branch
+
+The commit history will integrated as a patch
+ >  all the commit of master branch (base branch)
+> than all the new commits of done on feature branch
+
+Demo:
+
+> Checkout to feature branch and create 2  new commits on the feature branch
+
+vim benchmarks.rb
+git commit -a -m "modified new file on fetaure branch"
+
+Make second commit
+vim benchmarks.rb
+git commit -a -m "modified new file on fetaure branch"
+
+
+> Checkout to master branch and make new commits on the master branch
+
+touch file.rb
+git add .
+ git commit -m " done on master"
+
+> We are going to switch to feature branch, on the feature I want to merge the commits of 2 branches in a linear workflow , i.e we should have all commits of master branch available and then commits of feature branch should be there
+
+$ git checkout feature
+
+$ git rebase master
+
+ we should have all commits of master branch available and then new commits of feature branch should be there
+
+
+
+
+
+
+
+
+
+
+
+Scenario 2: Tags in GIT
+Light weight tags:
+ In this method the tag is directly appended to the latest Head commit id
+$ git tag release1
+To see all tags on the local repo:
+
+  $ git tag --list
+
+To see tag associate dto commit id
+$ git log –oneline
+
+Output:
+
+d3e9a9d (HEAD -> feature, tag: release1) modified new file on fetaure branch
+db50ea3 modified new file on fetaure branch
+a29fafc done
+e54ddb6 done
+0e6bac9 done on feature branch
+
+
+
+ Annotated tags:
+	
+$ git tag -a v1.1 -m “july release” e07cdad
+
+$ git tag --list
+
+$ git show <tagname>
+
+
+Scenario 1: Stashing in GIT
+*******************************
+Statshing is done in Local repo
+Which is applied only to the files that are tracked by git and have incomplete changes or modifications
+
+$ git ls-files
+
+Take a file that is already tracked by git
+
+Make some modifications to it
+
+$  git status
+
+Execute the stash command
+$ git stash
+
+Changes will be stashed in .git folder /refs/stash file
+
+List all stash
+
+$ git stash list
+
+Stash files using interactive mode
+
+$ git stash -p
+
+See what is saved in the stash
+
+$ git show stash@{0}
+
+
+Delete the stash and move the changes back to WD
+
+$ git stash pop stash@{0}
+
+Keep the stash and move changes back to WD
+
+$ git stash apply stash@{0}
+
+
+Assignment:
+**********************
+
+Password less authentication with GITHUB
+
+Basically git can communicate with GITHUb over https or SSH
+
+Method1
+When git is connected to github over https, you will use
+Username and personal access token to push files in to repo by authenticating the user.
+
+Method 2:
+************************
+When git is connect to github over SSH
+
+Step 1:
+
+For this process on the local machine you will have to generate :
+
+SSH private key
+SSH public key
+
+The command to generate SSH key is:
+
+Come out of your repo
+
+$ cd
+$ ssh-keygen
+
+Press enter key 3 times
+
+The key will be generated and public key will be in /root/.ssh/id_rsa.pub
+
+Get the public key content
+
+$ cat /root/.ssh/id_rsa.pub
+
+You will see the public key
+
+You will then copy the public key 
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC214RqDfafQxC5m5mZYnXLDvjMdeF4RKUw/RxszJKO1hAMkyMf5lPVEu2zZ3453646YKGaxdr0ys3IqRDhJXT0NKR5e490eki9LzWTxXODd6YI5wbARacjVRx1kkjVKEvbq3CHXOs1rGCrmDaMQ2rmgHOkdHO2LSxi4p/q897RWmpzs4JoAw6wDlQk0Xn12DGJ7lfTbuiypVY7O223553vNPGoj6mk+mW4lofMejkYeC/E5Yzhnx/Yn4LvP1ptXzzg1WOLICe//PJ7QIn7lCuQa79ce+PSvWOS7auYQN+8SwNC2U+oW/ZbK1NnsPvD/IcMyjyRyFshuEeHuL+WY7wKf+QBmGUlFlQuP root@ip-172-31-22-204.us-east-2.compute.internal
+
+Go to GITHUb and paste the public key in its Settings
+
+GITHUB →Settings → leftside click on SSH & GPG keys → click on new SSh key 
+Give title of key as purduekey
+Copy the key in next box 
+Save the key
+
+By this method github now identifies you local machine as a authenticated user
+Now you don't have to give any username or personal access token while pushing files into github
+If you want to push your files over SSH, then the remote URL will be different form https
+The remote URL for the repo will be like this:
+git@github.com:Sonal0409/myproject206Aug.git
+
+Demo Example :
+
+mkdir 20Sep
+cd 20Sep
+git init
+touch file1 file2 file3
+git add .
+git commit -m "added to lR"
+
+Create a new remote repo and copy its ssh path
+
+Execute below command on local
+git remote add origin git@github.com:Sonal0409/SSHConnectionDemo.git
+
+git remote -v
+
+git push origin master
+
+It will prompt you for authentication, give yes there.
+
+Push will be complete.
