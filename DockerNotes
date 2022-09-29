@@ -1,0 +1,217 @@
+
+Docker installation:
+
+# yum install docker -y
+
+# systemctl start docker
+
+Docker HUB URL:
+
+https://hub.docker.com/
+
+***************************************
+
+An image Name carries the address from where it has to be pulled
+
+ dockerhub/library/ubuntu:latest
+
+
+ Imagename is follwing:
+
+ registryName/repoName/Imagename:tagname
+
+
+Lets say we want to pull the image form AWS ECR
+
+registry name: AWS123
+
+
+docker pull AWS123/imagename:v1
+
+Lets say you have a private registery on a server on port 5000
+
+docker pull ipaddress:5000/imagename:v2
+
+
+docker pull centos
+
+List the images on docker host:
+
+# docker images
+
+OR
+
+# docker image ls
+
+To delete the images on docker host
+
+# docker rmi imagename/imageid
+
+
+*******************************************
+
+How to run an image to launch a container
+
+
+# docker run Imagename
+
+# docker run ubuntu
+
+**********************
+
+Docker Run options
+
+-- name option
+
+
+# docker run --name cont1 ubuntu
+
+
+Create a container and container has to be running
+
+Always give a mode with the run command - mandatory
+
+1. Foreground Mode (-it)  --> used for OS Images
+
+# docker run -it --name cont2 ubuntu
+
+ > docker will launch the container
+
+ > container will be up & running
+
+ > user will be attached to the terminal of the container
+
+Comeout of the container, back to the terminal of VM
+
+CTL pq  ==> you will out of the container and container will still be up & running
+
+# docker ps -a
+
+To attach to the container again:
+
+# docker attach containername
+
+Comeout of the container, back to the terminal of VM
+
+
+exit ==> you will out of the container and container will exited
+
+Start an exited container:
+
+# docker start containername
+
+# docker stop containername
+
+
+
+
+
+2. detached Mode (-d)
+
+Used for images of Web, DB
+
+# docker run -d --name cont3 nginx
+
+ > docker will launch the container
+
+ > container will be up & running
+
+ > user will not be attached to the terminal of the container
+
+
+Attach to the container running in the backgound:
+
+ > docker exec -it cont3 bash
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
