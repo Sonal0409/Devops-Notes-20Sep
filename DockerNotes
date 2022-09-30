@@ -123,6 +123,143 @@ Attach to the container running in the backgound:
 
  > docker exec -it cont3 bash
 
+***************************************
+Agenda:
+*********************
+
+> port Mapping
+
+ docker run -p systemport:containerport  imagename
+
+1. This scenario is applicable only to web applications
+
+2. Port binding will always be done when creating the container
+
+3. Once a container is created/exisitng you cannot do port binding
+
+4. In port binding, you cannot change the container port. You can check the container port on the image by 
+checking the option Expose
+
+5. You can give you own system port(ec2 VM port), it can a 4 digit number or 5 digit number
+
+6. every container will have to mapped to a unique system port
+
+
+It can be done in 2 ways:
+
+
+1. -p
+
+> in this case user will provide his own systemport and map to the container exposed port
+
+syntax: docker run --name cont2 -d -p systemport:containerport nginx
+
+
+docker run --name cont2 -d -p 8989:80 nginx
+
+*** 2. -P
+
+In this cases when with run command we give -P option, docker will do the port mapping 
+where in random system port will be mapped to container port automatically 
+
+docker run --name cont2 -d -P nginx
+
+
+**************************************************
+
+Docker Volumes:
+
+
+> This concept is used to preserve the data of the container's directory on the host machine
+
+> This concept can also be used in order to copy data from hostmachine to contaienr directory
+
+> volume mapping is also done at runtime. if the container is already created, you cannot do the volume mapping
+
+Method: Named Volumes
+
+# docker volume ls
+
+# docker volume create myvol
+
+Named Volumes in docker are always created in the directory => /var/lib/docker/volumes/myvol
+
+The data of the container will be preserved in this location:
+
+/var/lib/docker/volumes/myvol/_data
+
+
+> Now preserve the data of the container's directory on the Host volume myvol
+
+you will mount in the following way:
+
+-v Namedvolume:/anydireof container
+
+docker run -it --name cont1 -v myvol:/tmp ubuntu
+
+Now lets see :
+
+ copy data from hostmachine(volume) to contaienr directory
+
+
+***********************************
+
+Bind mount
+
+Any directory on the hostmachine can preserve the data of container
+and you can copy data on the container directory from any host directory
+
+In this case no specific named volume is created
+
+docker run -d --name cont2 -v anydirPath:/pathofcontadir httpd
+
+Integrate git and docker
+*****************************
+
+Step 1:
+
+Code is in git hub, I want the code in docker host
+
+# yum install git -y
+
+ git clone https://github.com/Sonal0409/ecomm.git
+
+Present working directory with code
+
+/root/ecomm
+
+
+Step 2: you need to create a container of image httpd and mount/copy  these code file from host machine 
+on the container directory
+
+
+# docker run -d --name web -v  /root/ecomm/:/usr/local/apache2/htdocs/     httpd
+
+
+Step 3: we should also be able to access the contaienr from brower, so what option will you give in the command
+
+
+# docker run -d --name web -v  /root/ecomm/:/usr/local/apache2/htdocs/  -P   httpd
+
+
+Step 4: Deveoper make changes in the github on the index.html file
+
+git pull origin maste
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
