@@ -1,0 +1,38 @@
+  435  docker swarm init
+  436  docker node ls
+  437  clear
+  438  docker swarm join-token worker
+  439  docker node ls
+  440  docker network ls
+  441  clear
+  442  docker service ls
+  443  docker service create --name mysvc --replicas 3 -p 8282:80 nginx
+  444  docker service ls
+  445  docker service ps mysvc
+  446  docker ps -a
+  447  clear
+  448  docker service ls
+  449  docker swarm scale mysvc=5
+  450  docker service scale mysvc=5
+  451  clear
+  452  docker service ls
+  453  docker service ps mysvc
+  454  docker service scale mysvc=2
+  455  docker service ps mysvc
+  456  docker service ls
+  457  docker service rm mysvc
+  458  clear
+  459  docker service ls
+  460  docker ps -a
+  461  clear
+  462  docker service create --name mysvc1 --replicas 4 -p 8989:3000 sonal04/samplepyapp:v1
+  463  docker service ls
+  464  docker service ps mysvc1
+  465  docker ps -a
+  466  clear
+  467  docker service ls
+  468  docker service scale mysvc1=6
+  469  docker service scale mysvc1=2
+  470  docker service update --image sonal04/samplepyapp:v2 mysvc1
+  471  docker service update --rollback mysvc1
+  472  history
