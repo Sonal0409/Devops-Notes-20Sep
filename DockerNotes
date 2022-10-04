@@ -246,6 +246,73 @@ Step 4: Deveoper make changes in the github on the index.html file
 
 git pull origin maste
 
+*************************************
+
+# This is nginx dockerfile
+
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install nginx -y
+COPY index.html /var/www/html/
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+****************************************
+
+Deploy Job in Jenkins:
+**************************************
+Steps to create a Jenkins job and create docker file and create container for addressbook.war
+
+1. Start the jenkins on AWS instance
+
+# systemctl start jenkins
+
+2. Start docker 
+# systemctl start docker
+
+3. Log into jenkins --> go to package job --go to console and copy the path of .war file
+
+4. create a new job -->Deploy
+
+5. Go to build -->shell command
+
+rm -rf mydockerfile
+mkdir mydockerfile
+cd mydockerfile
+cp /var/lib/jenkins/workspace/Package/target/addressbook.war .
+touch dockerfile
+cat <<EOT>> dockerfile
+From tomcat:9
+ADD addressbook.war /usr/local/tomcat/webapps
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
+EOT
+sudo docker build -t myimage:$BUILD_NUMBER .
+sudo docker run -itd -P myimage:$BUILD_NUMBER
+
+Save the job
+
+Go to instance to give jenkins permission to execute docker commands. 
+As of now we are logged in as admin in jenkins and it doesnt have permission to run docker commands.
+
+So go to
+vim /etc/sudoers
+i
+add under root
+Jenkins ALL=NOPASSWD: ALL
+:wq!
+
+Go back to jenkins and build now.
+
+==> New image and container will be created
+
+# docker images
+
+# docker ps -a
+
+Access from browser
+
+http://18.221.206.57:32768/addressbook/
 
 
 
