@@ -1,0 +1,66 @@
+Complete any one of the project to get the certification
+Project 1 or Project 2
+Steps to complete the Course end Project 1:
+To provide the solution with screeshots
+
+1.	Provide the screenshot of your code repository in GIThub
+Github – you will using the repository : https://github.com/Sonal0409/DevOpsCodeDemo.git
+
+2.	You will provide screenshot of Building the code using pipeline as Code in Jenkins
+Create a pipeline with maven, java in Jenkins. You will create stages:
+	Clone the repo
+	Compile
+	Test
+	Package   
+3.	You will also provide us screenshots of the console output of package job
+And target folder with addressbook.war file
+4.	You will create a new job in Jenkins-> Name it as deploy and add the script to write dockerfile
+And build the dockerfile into an image and run the image to create a container
+You will provide us screenshots of Docker image & docker container up and running
+You can also share screenshot of application container accessed through browser.
+5.	Go to Ansible Controller machine which is connect to the host
+	Execute the ping module and give screenshot to show us it is connected over ssh to Hosts
+	Write a playbook :
+o	Install git & docker on the host machine
+o	Clone the repo : https://github.com/Sonal0409/AnsibleDockerdemo.git
+o	Build the docker file
+o	Run the container
+	Share screenshot of execution of playbook and container creation.
+
+
+OR
+6.	You will Connect Jenkins to you Ansible Controller Machine(use Master & slave)
+7.	You can create a job, using Execute shell you will write the script 
+to change the directory /etc/ansible
+And give the command to execute the playbook
+The playbook should have steps :
+	Install git & docker on the host machine
+	Clone the repo : https://github.com/Sonal0409/AnsibleDockerdemo.git
+	Build the docker file
+	Run the container
+8.	You will give screenshot of playbook , Console output of jenkins and container created on host machine
+
+Steps for execute project 2:
+
+Execute the same steps till docker as mentioned above
+Once image is available, you can push the image to dockerhub
+Then you will take the Kubernetes cluster (GKE or Lab)
+You will create replicas of the image that was created in docker step
+	You will screenshot of pods created
+If you want you can also implement HPA to monitor and autoscale your pods
+You will share screenshots of :
+	HPA YAML
+	Autoscaling pod
+You will then deploy Prometheus POD and give screenshot with some Prometheus queries
+You will also set up Grafana and give us the screenshot of Kubernetes dashboard
+
+
+
+
+
+
+
+
+
+
+
